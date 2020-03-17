@@ -8,6 +8,14 @@ class Produto
     private $quantidade;
     private $categoriaId;
 
+
+    public function __construct($id = false)
+    {
+        if ($id) {
+            $this->id = $id;
+            $this->selecionar();
+        }
+    }
     public function setNome($nome)
     {
         $this->nome = $nome;
@@ -72,7 +80,24 @@ class Produto
 
         return $lista;
     }
+    public function selecionar()
+    {
+        $conexao = Conexao::chamarConexao();
+        $query = "SELECT id, nome, preco, quantidade, categoria_id FROM produtos WHERE id= :id ";
+        $stmt = $conexao->prepare($query);
 
+        $stmt->bindValue(':id', $this->id);
+
+        $stmt->execute();
+
+        $linha = $stmt->fetch();
+
+        $this->id = $linha['id'];
+        $this->nome = $linha['nome'];
+        $this->preco = $linha['preco'];
+        $this->quantidade = $linha['quantidade'];
+        $this->categoriaId = $linha['categoria_id'];
+    }
     public function inserir()
     {
 
