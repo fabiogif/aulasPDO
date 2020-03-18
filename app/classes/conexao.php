@@ -14,4 +14,9 @@ class Conexao
 
         return $conexao;
     }
+
+
+    public static function disconnect()
+    {
+    }
 }
