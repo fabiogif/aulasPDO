@@ -80,6 +80,21 @@ class Produto
 
         return $lista;
     }
+
+    public static function  listarPorCategoria($categoriaId)
+    {
+
+        $conexao = Conexao::chamarConexao();
+        $query = "SELECT id, nome, preco, quantidade FROM produtos WHERE categoria_id = :categoria_id ";
+
+        $stmt = $conexao->prepare($query);
+
+        $stmt->bindValue(':categoria_id', $categoriaId);
+        $stmt->execute();
+
+        return $stmt->fetchAll();
+    }
+
     public function selecionar()
     {
         $conexao = Conexao::chamarConexao();
@@ -133,6 +148,5 @@ class Produto
     public function excluir()
     {
         $conexao = Conexao::chamarConexao();
-        $query = "";
     }
 }

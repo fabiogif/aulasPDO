@@ -7,6 +7,9 @@ class Categoria
     private $id;
     private $nome;
 
+    public $produtos;
+
+
     public function __construct()
     {
     }
@@ -31,6 +34,15 @@ class Categoria
         return $this->id;
     }
 
+    public function setProdutos($produtos)
+    {
+        $this->produtos = $produtos;
+    }
+
+    public function getProdutos()
+    {
+        return $this->produtos;
+    }
     public function listar()
     {
         $conexao = Conexao::chamarConexao();
@@ -64,6 +76,7 @@ class Categoria
 
         $lista = $stmt->fetch();
         $categoria->setNome($lista['nome']);
+        $categoria->setId($lista['id']);
     }
     public function inserir()
     {
@@ -86,5 +99,10 @@ class Categoria
         $stmt->execute();
 
         $conexao->exec($query);
+    }
+
+    public function listarPorCategoria()
+    {
+        $this->produtos = Produto::listarPorCategoria($this->getId());
     }
 }

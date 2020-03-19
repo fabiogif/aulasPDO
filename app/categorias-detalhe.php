@@ -1,4 +1,20 @@
+<?php require_once 'global.php'; ?>
 <?php require_once 'cabecalho.php' ?>
+<?php
+try {
+    $categoria = new Categoria();
+    $id = $_GET['id'];
+    $categoria->setId($id);
+    $categoria->selecionar($categoria);
+
+    $categoria->listarPorCategoria();
+    $listaProdutos = $categoria->produtos;
+} catch (Exception $ex) {
+    Erro::trataError($ex);
+}
+
+?>
+
 <div class="row">
     <div class="col-md-12">
         <h2>Detalhe da Categoria</h2>
@@ -7,14 +23,15 @@
 
 <dl>
     <dt>ID</dt>
-    <dd>1</dd>
+    <dd><?php echo $categoria->getId(); ?></dd>
     <dt>Nome</dt>
-    <dd>Livros</dd>
+    <dd><?php echo $categoria->getNome(); ?></dd>
     <dt>Produtos</dt>
     <dd>
         <ul>
-            <li><a href="/produtos-editar.php">Senhor dos Aneis</a></li>
-            <li><a href="/produtos-editar.php">O Guia do Mochileiro das Galáxias</a></li>
+            <?php foreach ($listaProdutos as $produtos) { ?>
+                <li><a href="/produtos-editar.php?<?php echo $produtos['id'] ?>"><?php echo $produtos['nome']; ?></a></li>
+            <?php } ?>
         </ul>
     </dd>
 </dl>
